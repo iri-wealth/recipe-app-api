@@ -171,7 +171,7 @@ class PrivateRecipeApiTests(TestCase):
         recipe.refresh_from_db()
         for k, v in payload.items():
             self.assertEqual(getattr(recipe, k), v)
-            self.assertEqual(recipe.user, self.user)
+        self.assertEqual(recipe.user, self.user)
 
     def test_update_user_returns_error(self):
         """Test changing the recipe user which would result in an error"""
@@ -431,7 +431,7 @@ class ImageUploadTests(TestCase):
     def test_upload_image_bad_request(self):
         """Test uploading invalid image file."""
         url = image_upload_url(self.recipe.id)
-        payload = {'image': 'notanimage'}
+        payload = {'image': 'badimage'}
         res = self.client.post(url, payload, format='multipart')
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
